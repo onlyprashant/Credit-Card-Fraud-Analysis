@@ -22,7 +22,11 @@ import pandas as pd
 import os
 
 # Load demo profiles
-demo_profiles = pd.read_csv("demo_profiles.csv")
+if os.path.exists("demo_profiles.csv"):
+
+    demo_profiles = pd.read_csv("demo_profiles.csv")
+else:
+    demo_profiles = pd.DataFrame()
 
 from data_preprocessing import preprocess_transaction
 
