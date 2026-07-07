@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Sign Up | Credit Card Fraud Detection</title>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <div class="login-card signup-card">
+
+        <div class="logo">
+            🛡
+        </div>
+
+        <h1>Create Account</h1>
+
+        <p>
+            Register to access the Credit Card Fraud Detection System
+        </p>
+
+        <form
+            method="POST"
+            action="/signup">
+
+            <div class="input-group">
+
+                <label>Full Name</label>
+
+                <input
+                    type="text"
+                    name="full_name"
+                    placeholder="Enter your full name"
+                    required>
+
+            </div>
+
+            <div class="input-group">
+
+                <label>College</label>
+
+                <input
+                    type="text"
+                    name="college"
+                    placeholder="Enter your college"
+                    required>
+
+            </div>
+
+            <div class="input-group">
+
+                <label>Department</label>
+
+                <input
+                    type="text"
+                    name="department"
+                    placeholder="Computer Science Engineering"
+                    required>
+
+            </div>
+
+            <div class="input-group">
+
+                <label>Email Address</label>
+
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    required>
+
+            </div>
+
+            <div class="input-group">
+
+                <label>Password</label>
+
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Create a password"
+                    required>
+
+            </div>
+
+            <div class="input-group">
+
+                <label>Confirm Password</label>
+
+                <input
+                    type="password"
+                    name="confirm_password"
+                    placeholder="Confirm your password"
+                    required>
+
+            </div>
+
+            <button
+                class="login-btn"
+                type="submit">
+
+                Create Account
+
+            </button>
+
+        </form>
+
+        <div class="signup-link">
+
+            Already have an account?
+
+            <a href="/login">
+
+                Login Here
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

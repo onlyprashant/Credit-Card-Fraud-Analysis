@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | Credit Card Fraud Detection</title>
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='dashboard.css') }}">
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- ========================================= -->
+    <!-- Sidebar -->
+    <!-- ========================================= -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-header">
+
+            <div class="logo-circle">
+
+                🛡
+
+            </div>
+
+            <h2>Fraud Shield</h2>
+
+            <p>Machine Learning Dashboard</p>
+
+        </div>
+
+        <ul class="menu">
+
+            <li onclick="showSection('home',this)" class="active">
+
+                🏠 Dashboard
+
+            </li>
+
+            <li onclick="showSection('demo',this)">
+
+                💳 Demo Transaction Analysis
+
+            </li>
+
+            <li onclick="showSection('csv',this)">
+
+                📂 Batch Analysis
+
+            </li>
+
+            <li onclick="showSection('profile',this)">
+
+                👤 Profile
+
+            </li>
+
+            <li onclick="showSection('about',this)">
+
+                ℹ About
+
+            </li>
+
+            <li>
+
+                <a href="/logout">
+
+                    🚪 Logout
+
+                </a>
+
+            </li>
+
+        </ul>
+
+    </aside>
+
+    <!-- ========================================= -->
+    <!-- Main Content -->
+    <!-- ========================================= -->
+
+    <main class="content">
+
+        <!-- Top Bar -->
+
+        <div class="topbar">
+
+    <div>
+
+        <h1>
+
+            Welcome,
+
+            {{ user[1] }}
+
+            👋
+
+        </h1>
+
+        <p>
+
+            Credit Card Fraud Detection Dashboard
+
+        </p>
+
+    </div>
+
+    <div class="status">
+
+        🟢 Backend Online
+
+    </div>
+
+</div>
+
+        <!-- ========================================= -->
+        <!-- HOME -->
+        <!-- ========================================= -->
+
+        <section id="home" class="page-section">
+
+        <div class="dashboard-cards">
+
+            <div class="card">
+
+                <h3>
+
+                    Model
+
+                </h3>
+
+                <h2>
+
+                    {{ model_name }}
+
+                </h2>
+
+            </div>
+
+            <div class="card">
+
+                <h3>
+
+                    Accuracy
+
+                </h3>
+
+                <h2>
+
+                    99.96%
+
+                </h2>
+
+            </div>
+
+            <div class="card">
+
+                <h3>
+
+                    PR-AUC
+
+                </h3>
+
+                <h2>
+
+                    87.97%
+
+                </h2>
+
+            </div>
+
+            <div class="card">
+
+                <h3>
+
+                    Backend
+
+                </h3>
+
+                <h2>
+
+                    🟢 Online
+
+                </h2>
+
+            </div>
+
+        </div>
+
+        <div class="welcome-panel">
+
+            <h2>Welcome, {{ user[1] }} 👋</h2>
+
+        <p>
+            You are logged in to the Credit Card Fraud Detection System.
+            Select an option below to begin.
+        </p>
+
+        <div class="quick-actions">
+
+            <button onclick="showSection('demo', document.querySelectorAll('.menu li')[1])">
+
+                📈 Demo Prediction
+
+            </button>
+
+            <button onclick="showSection('csv', document.querySelectorAll('.menu li')[2])">
+
+                📂 Batch Prediction
+
+            </button>
+
+        </div>
+
+        </div>
+
+    </section>
+
+        <!-- ========================================= -->
+        <!-- DEMO -->
+        <!-- ========================================= -->
+
+        <section id="demo" class="page-section hidden">
+
+            <div class="section-header">
+
+                <h2>💳 Demo Transaction Analysis       (simulation)</h2>
+
+                <p>
+                    Enter transaction details for instant fraud analysis.
+                </p>
+
+            </div>
+
+            <div class="analysis-container">
+
+                <div class="card">
+
+                    <label>Transaction Time (seconds)</label>
+
+                    <input
+                        type="number"
+                        id="Time"
+                        placeholder="Example: 3600">
+
+                    <label>Transaction Amount ($)</label>
+
+                    <input
+                        type="number"
+                        id="Amount"
+                        placeholder="Example: 250.75">
+
+                    <button
+                        id="predictButton"
+                        onclick="predictTransaction()">
+
+                        Analyze Transaction
+
+                    </button>
+
+                </div>
+
+                <div
+                    id="predictionResult"
+                    class="card">
+
+                    <h2>
+
+                        Awaiting Analysis
+
+                    </h2>
+
+                    <p>
+
+                        Enter transaction details and click
+                        <strong>Analyze Transaction</strong>.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ========================================= -->
+        <!-- CSV -->
+        <!-- ========================================= -->
+
+        <section id="csv" class="page-section hidden">
+
+            <div class="section-header">
+
+            <h2>📂 Batch Transaction Analysis</h2>
+
+            <p>
+
+            Upload a CSV containing multiple transactions.
+
+            </p>
+
+            </div>
+
+            <div class="card">
+
+            <input
+
+            type="file"
+
+            id="csvFile"
+
+            accept=".csv">
+
+            <br><br>
+
+            <button
+
+            id="uploadButton"
+            onclick="uploadCSV()">
+
+            Analyze CSV
+
+            </button>
+
+            </div>
+
+            <div
+            id="summaryCards">
+
+            </div>
+
+            <p
+            id="rowMessage"
+            style="margin-top:20px;
+            font-weight:bold;
+            color:#60a5fa;">
+            </p>
+
+            <div
+            id="resultsTable">
+
+            </div>
+
+            <br>
+
+            <button
+            id="downloadButton"
+            style="display:none"
+            onclick="downloadResults()">
+
+            Download Prediction Results
+
+            </button>
+
+        </section>
+
+        <!-- ========================================= -->
+        <!-- PROFILE -->
+        <!-- ========================================= -->
+
+        <section id="profile" class="page-section hidden">
+
+            <div class="section-header">
+
+                <h2>👤 User Profile</h2>
+
+                <p>
+                    Account information and system details.
+                </p>
+
+            </div>
+
+            <div class="profile-container">
+
+                <div class="profile-card">
+
+                    <div class="profile-avatar">
+
+                        👤
+
+                    </div>
+
+                    <h2>{{ user[1] }}</h2>
+
+                    <p>Fraud Detection System User</p>
+
+                </div>
+
+                <div class="profile-details">
+
+                    <div class="detail-card">
+
+                        <h3>Name</h3>
+
+                        <p>{{ user[1] }}</p>
+
+                    </div>
+
+                    <div class="detail-card">
+
+                        <h3>Email</h3>
+
+                        <p>{{ user[2] }}</p>
+
+                    </div>
+
+                    <div class="detail-card">
+
+                        <h3>College</h3>
+
+                        <p>{{ user[4] }}</p>
+
+                    </div>
+
+                    <div class="detail-card">
+
+                        <h3>Department</h3>
+
+                        <p>{{ user[5] }}</p>
+
+                    </div>
+
+                    <div class="detail-card">
+
+                        <h3>Machine Learning Model</h3>
+
+                        <p>Extra Trees Classifier</p>
+
+                    </div>
+
+                    <div class="detail-card">
+
+                        <h3>Application Version</h3>
+
+                        <p>Version 1.0</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ========================================= -->
+        <!-- ABOUT -->
+        <!-- ========================================= -->
+
+        <section id="about" class="page-section hidden">
+
+            <div class="section-header">
+
+                <h2>ℹ️ About Project</h2>
+
+                <p>
+                    Credit Card Fraud Detection using Machine Learning
+                </p>
+
+            </div>
+
+            <div class="about-grid">
+
+                <div class="about-card">
+
+                    <h3>📌 Project Overview</h3>
+
+                    <p>
+                        This web application detects fraudulent credit card transactions
+                        using Machine Learning. It supports both manual transaction
+                        analysis and batch CSV analysis through a secure web interface.
+                    </p>
+
+                </div>
+
+                <div class="about-card">
+
+                    <h3>📊 Dataset</h3>
+
+                    <p>
+                        Kaggle European Credit Card Dataset
+                    </p>
+
+                    <ul>
+
+                        <li>✔ 284,807 Transactions</li>
+                        <li>✔ 492 Fraud Cases</li>
+                        <li>✔ 30 Input Features</li>
+                        <li>✔ Highly Imbalanced Dataset</li>
+
+                    </ul>
+
+                </div>
+
+                <div class="about-card">
+
+                    <h3>🤖 Models Compared</h3>
+
+                    <ul>
+
+                        <li>✔ Logistic Regression</li>
+                        <li>✔ Random Forest</li>
+                        <li>✔ Extra Trees ⭐</li>
+                        <li>✔ XGBoost</li>
+                        <li>✔ LightGBM</li>
+                        <li>✔ CatBoost</li>
+
+                    </ul>
+
+                </div>
+
+                <div class="about-card">
+
+                    <h3>🏆 Selected Model</h3>
+
+                    <p>
+
+                        <strong>Extra Trees Classifier</strong>
+
+                    </p>
+
+                    <br>
+
+                    <p>
+
+                        Selected after comparing multiple models based on
+                        Precision, Recall, F1-Score, ROC-AUC and PR-AUC.
+
+                    </p>
+
+                </div>
+
+                <div class="about-card">
+
+                    <h3>💻 Technology Stack</h3>
+
+                    <ul>
+
+                        <li>Python</li>
+                        <li>Flask</li>
+                        <li>SQLite</li>
+                        <li>Scikit-learn</li>
+                        <li>Pandas</li>
+                        <li>HTML5</li>
+                        <li>CSS3</li>
+                        <li>JavaScript</li>
+
+                    </ul>
+
+                </div>
+
+                <div class="about-card">
+
+                    <h3>📈 Model Performance</h3>
+
+                    <ul>
+
+                        <li>Accuracy : 99.96%</li>
+                        <li>Precision : 92.22%</li>
+                        <li>Recall : 84.69%</li>
+                        <li>ROC-AUC : 98.37%</li>
+                        <li>PR-AUC : 87.97%</li>
+
+                    </ul>
+
+                </div>
+
+                <div class="about-card full-width">
+
+                    <h3>🚀 Future Scope</h3>
+
+                    <ul>
+
+                        <li>Real-time transaction monitoring</li>
+
+                        <li>Deep Learning & Autoencoder Integration</li>
+
+                        <li>Live Banking API Integration</li>
+
+                        <li>SMS / Email Fraud Alerts</li>
+
+                        <li>Explainable AI (SHAP/LIME)</li>
+
+                        <li>Cloud Deployment</li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <footer class="footer">
+
+        Credit Card Fraud Detection System
+
+        <br>
+
+        Version 1.0
+
+        <br><br>
+
+        Developed by
+
+        <strong>
+
+        Prashant Patel
+
+        </strong>
+
+        </footer>
+
+    </main>
+
+</div>
+
+<script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+
+</body>
+
+</html>
